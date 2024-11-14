@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SIN Validator
+
+The [SIN Validator](https://sin-validator-jlaow.ondigitalocean.app/) was built with Nextjs and includes a react component that uses a server action that calls other functions internally to validate a SIN number. The `validateSin` function doesn't need to be a server function necessarily and could be called from the client directly if we need to (used here just for experimentation).
+
+See validator here: [https://sin-validator-jlaow.ondigitalocean.app/](https://sin-validator-jlaow.ondigitalocean.app/)
 
 ## Getting Started
 
-First, run the development server:
+First, clone this project
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/federico-hv/sin-validator && cd sin-validator
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then, install the dependencies:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+yarn install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Finally, run the development server:
 
-## Learn More
+```bash
+yarn dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+Once the server is running go to `http://localhost:3000/sin-validator`and try to validate a number. The react component will validate your input using a `validateSin` server function that makes use of several checks to make sure the SIN is valid.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The validation is done following these rules:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Check that the characters in the string are exactly 9
+2. Doubling every second digit on the input
+3. Checking if the total sum of all the numbers of the string are a multiple of 10
 
-## Deploy on Vercel
+The `validateSin` does some other checks internally like:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+`digitCount` -> Check if the character number is 9 and additionally if the input is just numbers
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`doubleEverySecondDigit` -> Returns a new string of numbers with every second digit doubled
+
+`checkSumValidation` -> Checks if the sum of numbers in the string is multiple of 10
+
+## Testing
+
+Some tests have been included to check the SinValidator component and the validateSin function
+
+To run the tests:
+
+```bash
+yarn test
+```
+
+To run the tests in watch mode:
+
+```bash
+yarn test:watch
+```
+
+## Production
+
+To build for production:
+
+```bash
+yarn build
+```
+
+To serve in production:
+
+```bash
+yarn start
+```
